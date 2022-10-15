@@ -2,7 +2,7 @@
 {
     public class UploadChunkRequest
     {
-        public int OrderNumber { get; set; }
+        public ulong OrderNumber { get; set; }
         //public string Hash future
         public byte[] Data { get; set; }
     }

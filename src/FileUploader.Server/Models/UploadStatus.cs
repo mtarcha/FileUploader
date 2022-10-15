@@ -5,7 +5,7 @@
         Initiated,
         InProgress,
         Failed,
-        Done,
+        Uploaded,
         Aborted
     }
 }

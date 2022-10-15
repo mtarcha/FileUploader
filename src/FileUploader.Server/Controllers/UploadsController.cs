@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FileUploader.Server.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/v1/uploads")]
     public class UploadsController : ControllerBase
     {
        
@@ -15,31 +15,31 @@ namespace FileUploader.Server.Controllers
             _logger = logger;
         }
 
-        [HttpPost(Name = "init")]
+        [HttpPost("init")]
         public UploadStatusOverview Initiate(InitiateFileUploadRequest reqest)
         {
             return new UploadStatusOverview();
         }
 
-        [HttpGet(Name = "{id}")]
+        [HttpGet("{id}")]
         public UploadStatusOverview Get(string id)
         {
             return new UploadStatusOverview();
         }
 
-        [HttpPost(Name = "{id}/chunks")]
+        [HttpPost("{id}/chunks")]
         public ChunkStatus UploadChunk(int id, UploadChunkRequest reqest)
         {
             return new ChunkStatus();
         }
 
-        [HttpPatch(Name = "{id}/complete")]
+        [HttpPatch("{id}/complete")]
         public UploadStatusOverview Complete(string id)
         {
             return new UploadStatusOverview();
         }
 
-        [HttpPatch(Name = "{id}/abort")]
+        [HttpPatch("{id}/abort")]
         public UploadStatusOverview Abort(string id)
         {
             return new UploadStatusOverview();
