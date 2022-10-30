@@ -1,4 +1,4 @@
-﻿namespace FileUploader.Server.Models
+﻿namespace FileUploader.Server.POC.Models
 {
     public class UploadChunkRequest
     {

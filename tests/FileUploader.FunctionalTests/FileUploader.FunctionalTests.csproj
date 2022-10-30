@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\SmallFileToUpload.txt.txt" />
+    <None Remove="Resources\SmallFileToUpload.txt" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Resources\SmallFileToUpload.txt.txt">
+    <Content Include="Resources\SmallFileToUpload.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\FileUploader.Server\FileUploader.Server.csproj" />
+    <ProjectReference Include="..\..\src\FileUploader.Server.API\FileUploader.Server.API.csproj" />
   </ItemGroup>
 
 </Project>

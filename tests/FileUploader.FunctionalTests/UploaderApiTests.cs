@@ -1,4 +1,4 @@
-﻿using FileUploader.Server.Models;
+﻿using FileUploader.Server.POC.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -126,7 +126,7 @@ namespace FileUploader.FunctionalTests
             Assert.Equal(initRequest.FileName, uplodStatus.FileName);
             Assert.Equal(initRequest.FileLenght, uplodStatus.FileLength);
             Assert.Equal(initRequest.ChunkLenght, uplodStatus.ChunkLength);
-            Assert.Equal(2, uplodStatus.Chunks.Length);
+            Assert.Equal(2, uplodStatus.Chunks.Count);
             Assert.Equal(UploadStatus.InProgress, uplodStatus.Status);
         }
 
