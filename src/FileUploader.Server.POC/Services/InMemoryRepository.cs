@@ -27,9 +27,27 @@ namespace FileUploader.Server.POC.Services
             return Task.FromResult(_inMemoryStorage[id]);
         }
 
-        public Task<UploadStatusOverview> UpdateAsync(UploadStatusOverview upload, CancellationToken cancellationToken)
+        public Task<UploadStatusOverview> UpdateStatusAsync(string id, UploadStatus newStatus, CancellationToken cancellationToken)
         {
-            _inMemoryStorage[upload.Id] = upload;
+            var upload = _inMemoryStorage[id];
+            upload.Status = newStatus;
+
+            return Task.FromResult(upload);
+        }
+
+        public Task<UploadStatusOverview> UpsertChunkStatusAsync(string id, ChunkStatus chunkStatus, CancellationToken cancellationToken)
+        {
+            var upload = _inMemoryStorage[id];
+            var existingChunkStatus = upload.Chunks.FirstOrDefault(x => x.OrderNumber == chunkStatus.OrderNumber);
+
+            if(existingChunkStatus != null)
+            {
+                upload.Chunks.Remove(existingChunkStatus);
+            }
+
+            upload.Chunks.Add(chunkStatus);
+            upload.Status = UploadStatus.InProgress;
+
             return Task.FromResult(upload);
         }
     }

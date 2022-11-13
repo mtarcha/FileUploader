@@ -10,8 +10,9 @@ namespace FileUploader.Server.POC.Contracts
     {
         Task InitiateUploadAsync(string id, CancellationToken cancellationToken);
         Task UploadChunkAsync(string id, ulong orderNumber, byte[] chunk, CancellationToken cancellationToken);
-        Task MergeChunksAsync(string id, string FileName, CancellationToken cancellationToken);
+        Task StartMergeChunksAsync(string id, string FileName, CancellationToken cancellationToken);
         Task<string?> GetFileLocationAsync(string id, CancellationToken cancellationToken);
+        Task<Models.UploadStatus> GetMergeStatusAsync(string id, CancellationToken cancellationToken);
         Task DeleteChunksAsync(string id, CancellationToken cancellationToken);
     }
 }

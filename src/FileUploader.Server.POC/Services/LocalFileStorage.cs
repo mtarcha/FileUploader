@@ -1,4 +1,5 @@
 ﻿using FileUploader.Server.POC.Contracts;
+using FileUploader.Server.POC.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -75,6 +76,16 @@ namespace FileUploader.Server.POC.Services
             writer.Write(chunk);
 
             return Task.CompletedTask;
+        }
+
+        public Task StartMergeChunksAsync(string id, string FileName, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<UploadStatus> GetMergeStatusAsync(string id, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
         }
     }
 }

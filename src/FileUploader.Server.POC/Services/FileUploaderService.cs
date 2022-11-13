@@ -1,13 +1,9 @@
 ﻿using FileUploader.Server.POC.Contracts;
 using FileUploader.Server.POC.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FileUploader.Server.POC.Services
 {
+    // todo: consider using sagas to manage upload process
     internal class FileUploaderService : IFileUploaderService
     {
         private readonly IUploadsRepository _statusRpository;
@@ -53,26 +49,19 @@ namespace FileUploader.Server.POC.Services
                 Status = UploadStatus.Uploaded
             };
 
-            status.Chunks.Add(chunkStatus);
-            status.Status = UploadStatus.InProgress;
-
-            await _statusRpository.UpdateAsync(status, cancellationToken);
+            // todo: this should not fail upload 
+            await _statusRpository.UpsertChunkStatusAsync(id, chunkStatus, cancellationToken);
 
             return chunkStatus;
         }
 
         public async Task<UploadStatusOverview> AbortUploadAsync(string id, CancellationToken cancellationToken)
         {
-            var status = await _statusRpository.GetAsync(id, cancellationToken);
-            // todo: validate
-
             await _fileStorage.DeleteChunksAsync(id, cancellationToken);
 
-            status.Status = UploadStatus.Aborted;
-
-            await _statusRpository.UpdateAsync(status, cancellationToken);
-            
-            return status;
+            // todo: this should not fail abort 
+            return await _statusRpository.UpdateStatusAsync(id, UploadStatus.Aborted, cancellationToken);
+           
         }
 
         public async Task<UploadStatusOverview> CompleteUploadAsync(string id, CancellationToken cancellationToken)
@@ -80,13 +69,13 @@ namespace FileUploader.Server.POC.Services
             var status = await _statusRpository.GetAsync(id, cancellationToken);
             // todo: validate
 
-            await _fileStorage.MergeChunksAsync(id, status.FileName, cancellationToken);
+            await _fileStorage.StartMergeChunksAsync(id, status.FileName, cancellationToken);
             var location = await _fileStorage.GetFileLocationAsync(id, cancellationToken);
 
-            status.Status = UploadStatus.Uploaded;
-            status.TargetLocation = location;
+            //todo set target location
 
-            await _statusRpository.UpdateAsync(status, cancellationToken);
+            // todo: this should not fail upload 
+            await _statusRpository.UpdateStatusAsync(id, UploadStatus.Uploaded, cancellationToken);
 
             return status;
         }
